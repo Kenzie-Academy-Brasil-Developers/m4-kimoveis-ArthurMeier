@@ -17,6 +17,8 @@ const updateUserService = async (
     id: userId,
   });
 
+  userData.admin = oldUserData!.admin;
+
   const newUserData: User = UserRepository.create({
     ...oldUserData,
     ...userData,
@@ -25,8 +27,6 @@ const updateUserService = async (
   await UserRepository.save(newUserData);
 
   const returnUser: TUserResponse = responseUserSchema.parse(newUserData);
-
-  console.log(returnUser);
 
   return returnUser;
 };

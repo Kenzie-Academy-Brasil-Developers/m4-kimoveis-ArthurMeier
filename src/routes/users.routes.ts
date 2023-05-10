@@ -8,6 +8,7 @@ import {
 import verifyEmailNotExist from "../middleware/verifyEmailNotExist.middleware";
 import verifyDataIsValid from "../middleware/verifyDataIsValid.middleware";
 import { requestUserSchema } from "../schemas/usersSchema.schemas";
+import verifyToken from "../middleware/verifyToken.middleware";
 
 const userRoutes: Router = Router();
 
@@ -17,8 +18,16 @@ userRoutes.post(
   verifyDataIsValid(requestUserSchema),
   createUserController
 );
-userRoutes.get("", listUsersController);
-userRoutes.patch("/:id", updateUserController);
-userRoutes.delete("/:id", deleteUserController);
+userRoutes.get("", verifyToken({ state: "admin" }), listUsersController);
+userRoutes.patch(
+  "/:id",
+  verifyToken({ state: "update" }),
+  updateUserController
+);
+userRoutes.delete(
+  "/:id",
+  verifyToken({ state: "update" }),
+  deleteUserController
+);
 
 export default userRoutes;

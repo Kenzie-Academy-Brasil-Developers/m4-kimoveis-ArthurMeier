@@ -4,7 +4,6 @@ import {
   requestUserSchema,
   responseUserSchema,
   responseAllUsersSchema,
-  updateUserSchema,
 } from "../schemas/usersSchema.schemas";
 import { DeepPartial } from "typeorm";
 

@@ -25,8 +25,6 @@ const listUsersController = async (
 ): Promise<Response> => {
   const users = await listUsersService();
 
-  console.log(users);
-
   return res.json(users);
 };
 
