@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
+import Address from "./address.entity";
 
 @Entity({ name: "real_estate" })
 export class RealEstate {
@@ -26,8 +29,9 @@ export class RealEstate {
   @UpdateDateColumn({ type: "date", nullable: false })
   updatedAt: Date;
 
-  @Column({ type: "integer", nullable: false, unique: true })
-  addressId: number;
+  @OneToOne(() => Address)
+  @JoinColumn()
+  address: Address;
 
   @Column({ type: "integer", nullable: false })
   categoryId: number;

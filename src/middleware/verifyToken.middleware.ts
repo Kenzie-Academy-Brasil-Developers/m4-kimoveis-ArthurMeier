@@ -50,9 +50,9 @@ const verifyToken =
 
     const userId = parseInt(req.params.id);
 
-    const userRepositorie: Repository<User> = AppDataSource.getRepository(User);
+    const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-    const exists = await userRepositorie.exist({ where: { id: userId } });
+    const exists = await userRepository.exist({ where: { id: userId } });
 
     if (exists === false) {
       throw new AppError("User not found", 404);

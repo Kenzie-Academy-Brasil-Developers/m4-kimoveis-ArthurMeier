@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { QueryConfig, QueryResult } from "pg";
 import { AppError } from "../errors";
 import { Repository } from "typeorm";
 import { User } from "../entities";
@@ -17,9 +16,9 @@ const verifyEmailNotExist = async (
   const { email }: TEmail = req.body;
 
   if (!!email) {
-    const userRepositorie: Repository<User> = AppDataSource.getRepository(User);
+    const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-    const exists = await userRepositorie.exist({ where: { email: email } });
+    const exists = await userRepository.exist({ where: { email: email } });
 
     if (exists === true) {
       throw new AppError("Email already exists", 409);

@@ -10,11 +10,11 @@ import { responseUserSchema } from "../../schemas/usersSchema.schemas";
 const createUserService = async (
   userData: TUserRequest
 ): Promise<TUserResponse> => {
-  const userRepositorie: Repository<User> = AppDataSource.getRepository(User);
+  const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-  const user: User = userRepositorie.create(userData);
+  const user: User = userRepository.create(userData);
 
-  await userRepositorie.save(user);
+  await userRepository.save(user);
 
   const newUser: TUserResponse = responseUserSchema.parse(user);
 
