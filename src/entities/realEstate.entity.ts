@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from "typeorm";
 import Address from "./address.entity";
+import Category from "./category.entity";
 
 @Entity({ name: "real_estate" })
 export class RealEstate {
@@ -33,7 +34,8 @@ export class RealEstate {
   @JoinColumn()
   address: Address;
 
-  @Column({ type: "integer", nullable: false })
-  categoryId: number;
+  @OneToOne(() => Category)
+  @JoinColumn()
+  Category: Category;
 }
 export default RealEstate;
