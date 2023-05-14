@@ -1,4 +1,5 @@
 import { Repository } from "typeorm";
+import { Response } from "express";
 import { Address, RealEstate } from "../../entities";
 import {
   TAddress,
@@ -7,28 +8,39 @@ import {
   TRealStateRequest,
 } from "../../interfaces/realStateInterfaces.interface";
 import { AppDataSource } from "../../data-source";
-import { realStateSchema } from "../../schemas/realStateSchema.schema";
+import {
+  realStateSchema,
+  realStateWithoutCategoryId,
+} from "../../schemas/realStateSchema.schema";
+import { TCategoryResponse } from "../../interfaces/categorieInterface.interface";
 
-const createRealStateService = async (realStateData: TRealStateRequest) => {
-  const address: TAddressRequest = realStateData.address;
+const createRealStateService = async (
+  realStateData: TRealStateRequest,
+  category: TCategoryResponse
+) => {
+  const address: TAddressRequest = realStateData.address!;
 
   const addressRepository: Repository<Address> =
     AppDataSource.getRepository(Address);
 
-  const newAddress: Address = addressRepository.create();
-
-  await addressRepository.save(newAddress);
-
   const realStateRepository: Repository<RealEstate> =
     AppDataSource.getRepository(RealEstate);
 
-  const newRealState: RealEstate = realStateRepository.create();
+  const newAddress: Address = addressRepository.create(address);
+
+  await addressRepository.save(newAddress);
+
+  const newRealState: RealEstate = realStateRepository.create({
+    ...realStateData,
+    address: newAddress,
+    category: category,
+  });
 
   await realStateRepository.save(newRealState);
 
-  const newUser: TRealStateInterface = realStateSchema.parse(newRealState);
+  const realEstate = realStateWithoutCategoryId.parse(newRealState);
 
-  return newUser;
+  return realEstate;
 };
 
 export default createRealStateService;

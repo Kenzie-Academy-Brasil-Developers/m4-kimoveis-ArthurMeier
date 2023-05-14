@@ -4,12 +4,12 @@ import { Repository } from "typeorm";
 import { Category } from "../entities";
 import { AppDataSource } from "../data-source";
 
-const verifyCategoryExist = async (
+const verifyCategoryExistFromRealEstate = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const categoryId: number = parseInt(req.params.id);
+  const categoryId: number = parseInt(req.body.categoryId);
 
   const categoryRepository: Repository<Category> =
     AppDataSource.getRepository(Category);
@@ -29,4 +29,4 @@ const verifyCategoryExist = async (
   return next();
 };
 
-export default verifyCategoryExist;
+export default verifyCategoryExistFromRealEstate;

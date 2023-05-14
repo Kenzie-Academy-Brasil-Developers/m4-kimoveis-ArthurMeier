@@ -8,13 +8,12 @@ const retrieveAllRealStateInCategoryService = async (categoryId: number) => {
   const CategoryRepository: Repository<Category> =
     AppDataSource.getRepository(Category);
 
-  console.log("oio");
-  const category = await CategoryRepository.find();
+  const category: any = await CategoryRepository.find({
+    where: { id: categoryId },
+    relations: ["RealEstate"],
+  });
 
-  const realStateList: TAllRealStateResponse =
-    responseAllRealStateSchema.parse(category);
-
-  return realStateList;
+  return category;
 };
 
 export default retrieveAllRealStateInCategoryService;
