@@ -8,7 +8,9 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToMany,
 } from "typeorm";
+import Schedule from "./schedules.entity";
 
 @Entity({ name: "users" })
 export class User {
@@ -26,19 +28,6 @@ export class User {
 
   @Column({ type: "varchar", length: 120, nullable: false })
   password: string;
-  @BeforeInsert()
-  @BeforeUpdate()
-  hashPassword() {
-    // Função simples
-
-    // getRounds validando se a senha já não foi criptografada antes devido ao update
-    const isEncrypted: number = getRounds(this.password);
-
-    if (!isEncrypted) {
-      // Adicionando ao objeto que irá para o banco a senha criptografada
-      this.password = hashSync(this.password, 10);
-    }
-  }
 
   @CreateDateColumn({ type: "date", nullable: false })
   createdAt?: string | Date;
@@ -48,6 +37,19 @@ export class User {
 
   @DeleteDateColumn({ type: "date" })
   deletedAt?: string | Date;
+
+  @OneToMany(() => Schedule, (schedules) => schedules.user)
+  schedule: Schedule[];
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  hashPassword() {
+    const isEncrypted: number = getRounds(this.password);
+
+    if (!isEncrypted) {
+      this.password = hashSync(this.password, 10);
+    }
+  }
 }
 
 export default User;

@@ -7,10 +7,10 @@ export class Schedule {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "date", nullable: false })
+  @Column({ type: "date" })
   date: Date;
 
-  @Column({ type: "time", nullable: false })
+  @Column({ type: "time" })
   hour: string;
 
   @ManyToOne(() => RealEstate, { onDelete: "CASCADE" })

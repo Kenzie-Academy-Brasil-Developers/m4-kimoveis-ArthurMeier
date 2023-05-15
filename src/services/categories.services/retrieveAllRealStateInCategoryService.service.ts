@@ -1,19 +1,23 @@
 import { AppDataSource } from "../../data-source";
 import { Category } from "../../entities";
 import { Repository } from "typeorm";
-import { TAllRealStateResponse } from "../../interfaces/realStateInterfaces.interface";
-import { responseAllRealStateSchema } from "../../schemas/realStateSchema.schema";
 
-const retrieveAllRealStateInCategoryService = async (categoryId: number) => {
-  const CategoryRepository: Repository<Category> =
+const retrieveAllRealEstateInCategoryService = async (
+  categoryId: number
+): Promise<Category> => {
+  const categoryRepository: Repository<Category> =
     AppDataSource.getRepository(Category);
 
-  const category: any = await CategoryRepository.find({
-    where: { id: categoryId },
-    relations: ["RealEstate"],
+  const categoryResult: Category | null = await categoryRepository.findOne({
+    where: {
+      id: categoryId,
+    },
+    relations: {
+      realEstate: true,
+    },
   });
 
-  return category;
+  return categoryResult!;
 };
 
-export default retrieveAllRealStateInCategoryService;
+export default retrieveAllRealEstateInCategoryService;
