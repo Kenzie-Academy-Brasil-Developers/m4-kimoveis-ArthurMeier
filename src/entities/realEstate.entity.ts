@@ -22,7 +22,7 @@ export class RealEstate {
   sold: boolean;
 
   @Column({ type: "decimal", precision: 12, scale: 2, default: 0 })
-  value: () => string;
+  value: number | string;
 
   @Column({ type: "integer", nullable: false })
   size: number;
@@ -33,11 +33,11 @@ export class RealEstate {
   @UpdateDateColumn({ type: "date", nullable: false })
   updatedAt: Date;
 
-  @OneToOne(() => Address, { nullable: false })
+  @OneToOne(() => Address)
   @JoinColumn()
   address: Address;
 
-  @ManyToOne(() => Category, { nullable: false })
+  @ManyToOne(() => Category)
   category: Category;
 
   @OneToMany(() => Schedule, (schedules) => schedules.realEstate)

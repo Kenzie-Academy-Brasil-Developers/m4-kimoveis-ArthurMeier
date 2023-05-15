@@ -21,8 +21,8 @@ const realStateSchema = z.object({
   address: addressSchema,
   categoryId: z.number().int().positive(),
   sold: z.boolean().default(false),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  createdAt: z.date().or(z.string()),
+  updatedAt: z.date().or(z.string()),
 });
 
 const addressSchemaRequest = addressSchema.omit({ id: true });
